@@ -20,28 +20,25 @@ use std::rc::Rc;
 use std::cell::RefCell;
 impl Solution {
     fn longest_common_prefix(strs: Vec<String>) -> String {
-        let mut ret = "".to_string();
-        let mut cnt = 0;
-        let mut found = false;
-        if strs.len() == 0 || strs[0].len() == 0 {
-            return ret
-        }
-        loop {
-            ret.push_str(&strs[0][cnt..cnt + 1]);
-            for i in 0..strs.len() {
-                if strs[i].len() < cnt + 1 || strs[i][0..cnt + 1] != ret {
-                    found = true;
+        let mut minPrefix = strs[0].as_str();
+        let mut minPrefixSize = minPrefix.chars().count();
+        for curStr in strs.iter() {
+            if curStr.chars().count() < minPrefixSize {
+                minPrefixSize = curStr.chars().count();
+            }
+            let mut x = minPrefixSize+1;
+            for x in (0..minPrefixSize+1).rev() {
+                if minPrefix[..x] == curStr[..x] {
+                    minPrefixSize = x;
                     break;
                 }
             }
-            match found {
-                true => break ret[0..cnt].to_string(),
-                false => if cnt + 1 == strs[0].len() {
-                    break ret
-                }
+            if x == 0 {
+                minPrefixSize = x;
+                break;
             }
-            cnt += 1;
         }
+        return minPrefix[..minPrefixSize].to_string();
     }
 
     fn get_path(node: &Option<Rc<RefCell<TreeNode>>>, value: i32) -> (bool, String) {
