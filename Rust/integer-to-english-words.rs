@@ -1,5 +1,9 @@
 impl Solution {
     pub fn number_to_words(num: i32) -> String {
+        if num == 0 {
+            return "Zero".to_string();
+        }
+        
         let mut ret_string : String =  "".to_owned();
         
         let map_unit_0_19 = vec![
@@ -71,9 +75,6 @@ impl Solution {
             }
         }
 
-        if ret_string == "" {
-            return "Zero".to_string();
-        }
         return ret_string.trim().to_string();
     }
 }
